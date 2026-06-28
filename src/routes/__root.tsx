@@ -85,6 +85,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "From unread messages to every patient replied in 30 seconds." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "ATHAR — WhatsApp Automation for Egyptian Clinics" },
+      { name: "twitter:description", content: "From unread messages to every patient replied in 30 seconds." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/327e6b53-5b1d-4637-b23a-42b84244dbf9/id-preview-0290a04a--97088ac9-3137-44f6-aaf2-c22b0d86b550.lovable.app-1782687873007.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/327e6b53-5b1d-4637-b23a-42b84244dbf9/id-preview-0290a04a--97088ac9-3137-44f6-aaf2-c22b0d86b550.lovable.app-1782687873007.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
