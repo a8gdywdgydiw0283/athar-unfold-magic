@@ -1,0 +1,47 @@
+import { useTranslations } from "@/i18n/locale";
+import LanguageToggle from "@/components/ui/LanguageToggle";
+import logo from "@/assets/logo.png";
+
+const navLinks = [
+  { key: "services", href: "#tiers" },
+  { key: "how", href: "#process" },
+  { key: "proof", href: "#proof" },
+  { key: "faq", href: "#faq" },
+] as const;
+
+export default function Nav() {
+  const t = useTranslations("nav");
+
+  return (
+    <header className="fixed top-0 inset-x-0 z-50 bg-athar-black/80 backdrop-blur-md border-b border-athar-border">
+      <nav className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 h-16 flex items-center justify-between">
+        <a href="#" className="flex items-center gap-2 shrink-0">
+          <img src={logo} alt={t("logo_alt")} className="h-8 w-auto" />
+        </a>
+
+        <ul className="hidden md:flex items-center gap-8">
+          {navLinks.map(({ key, href }) => (
+            <li key={key}>
+              <a
+                href={href}
+                className="text-sm text-athar-muted hover:text-athar-white transition-colors duration-200"
+              >
+                {t(`links.${key}`)}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-4 md:gap-6">
+          <LanguageToggle />
+          <a
+            href="#tiers"
+            className="hidden sm:inline-flex items-center px-4 py-2 bg-athar-slash text-athar-black text-sm font-semibold hover:brightness-110 transition-all duration-200"
+          >
+            {t("cta")}
+          </a>
+        </div>
+      </nav>
+    </header>
+  );
+}
