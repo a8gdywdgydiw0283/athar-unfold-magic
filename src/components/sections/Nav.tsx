@@ -35,6 +35,17 @@ export default function Nav() {
         <div className="flex items-center gap-4 md:gap-6">
           <LanguageToggle />
           <a
+            href="/auth"
+            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 border border-athar-border text-athar-white text-sm font-medium hover:border-athar-slash hover:text-athar-slash transition-colors duration-200"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+              <polyline points="10 17 15 12 10 7" />
+              <line x1="15" y1="12" x2="3" y2="12" />
+            </svg>
+            {t("login")}
+          </a>
+          <a
             href="#tiers"
             className="hidden sm:inline-flex items-center px-4 py-2 bg-athar-slash text-athar-black text-sm font-semibold hover:brightness-110 transition-all duration-200"
           >
