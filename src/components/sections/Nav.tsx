@@ -16,7 +16,7 @@ export default function Nav() {
     <header className="fixed top-0 inset-x-0 z-50 bg-athar-black/80 backdrop-blur-md border-b border-athar-border">
       <nav className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 h-16 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 shrink-0">
-          <img src={logo} alt={t("logo_alt")} className="h-8 w-auto" />
+          <img src={logo} alt={t("logo_alt")} className="h-12 w-auto" />
         </a>
 
         <ul className="hidden md:flex items-center gap-8">
