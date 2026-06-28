@@ -1,0 +1,221 @@
+{
+  "meta": {
+    "title": "ATHAR — WhatsApp Automation for Egyptian Clinics",
+    "description": "From unread messages to every patient replied in 30 seconds. Less than a quarter of a receptionist. 14-day guarantee."
+  },
+  "nav": {
+    "logo_alt": "ATHAR logo",
+    "links": {
+      "services": "The Offer",
+      "how": "How We Work",
+      "proof": "Clinic Results",
+      "faq": "FAQ"
+    },
+    "cta": "Book a Call",
+    "lang_toggle": "عربي"
+  },
+  "hero": {
+    "eyebrow": "WhatsApp Automation for Egyptian Clinics",
+    "headline_1": "From \"message left unread\" → \"every patient replied in 30 seconds\"",
+    "headline_2": "in your first 7 days — even at 2 AM.",
+    "subline": "A receptionist costs EGP 8,000–12,000/month — and still misses messages after 6 PM. ATHAR runs 24/7 for less than a quarter of that.",
+    "cta_primary": "Book a Free Consultation",
+    "cta_secondary": "Try the reply on WhatsApp now ←",
+    "badge": "14-day guarantee: If we don't get your response time under 30 seconds within two weeks of launch — you pay nothing for that month."
+  },
+  "problem": {
+    "eyebrow": "The Problem",
+    "headline": "Patients reach out. The clinic sleeps.",
+    "subline": "Not a failing on your part — it's the natural limit of any clinic without someone on WhatsApp 24/7.",
+    "pains": [
+      {
+        "icon": "💬",
+        "title": "\"Good evening, I'd like to book\" — at 10 PM",
+        "body": "The patient messaged. No reply. They woke up and booked with whoever answered. 35% of potential patients go to a competitor if you don't respond within two hours."
+      },
+      {
+        "icon": "📅",
+        "title": "\"We'll remind you before your appointment\" — but nobody does",
+        "body": "Two hours a day on manual reminders. And still — 20% of patients cancel last minute. Every empty slot is EGP 500–2,000 in direct lost revenue."
+      },
+      {
+        "icon": "📋",
+        "title": "\"Have you been here before?\" — and you can't remember",
+        "body": "Patient history in WhatsApp, appointments in your head, notes on paper. 60% of returning patients get asked the same questions again — because there's no single record."
+      }
+    ],
+    "transition": "We noticed high-intent patients leaving messages on clinic WhatsApp after 10 PM — not because the clinic was bad, but because no one was there. We built a system that replies in under 15 seconds, qualifies, and books. Result: zero unanswered messages after 10 PM."
+  },
+  "solution": {
+    "eyebrow": "The Solution",
+    "headline": "Every conversation becomes data. Your clinic learns with every patient.",
+    "subline": "Not a generic bot. A system built on your clinic's flow — try it on WhatsApp now and watch the reply land in under 15 seconds.",
+    "pillars": [
+      {
+        "number": "01",
+        "title": "A complete patient file — without typing a word",
+        "body": "Every WhatsApp message logged: name, inquiry, appointment, patient status. After 90 days you have a 300+ patient database — with zero manual entry."
+      },
+      {
+        "number": "02",
+        "title": "Reply in 15 seconds — see it yourself",
+        "body": "Send a WhatsApp message right now. The system replies, qualifies, and books — in the same conversation. This is exactly what happens when every patient contacts your clinic."
+      },
+      {
+        "number": "03",
+        "title": "A full schedule — without reminder calls",
+        "body": "Automatic confirmation + 24-hour reminder + rescheduling. Clinics on FLOW cut cancellations by 60% in the first 30 days."
+      }
+    ]
+  },
+  "tiers": {
+    "eyebrow": "The Offer",
+    "headline": "Choose what fits your clinic.",
+    "subline": "Every plan includes a 14-day guarantee — if you don't see a difference in response time, you don't pay.",
+    "cta_all": "Talk to Us",
+    "popular_badge": "Most Popular for Clinics",
+    "items": [
+      {
+        "id": "core",
+        "name": "ATHAR CORE",
+        "arabic_name": "الأساس",
+        "tagline": "No WhatsApp message left unread",
+        "description": "\"Every patient gets a reply in 30 seconds — even at 2 AM.\"",
+        "features": [
+          "Every WhatsApp message answered in under 30 seconds",
+          "Every patient inquiry logged before you wake up",
+          "Appointment booked inside the chat — no phone tag",
+          "⏱ First result in: 7 days",
+          "💰 Compared to a receptionist: less than 25% of EGP 8,000–12,000/month",
+          "✓ If we don't hit under 30 seconds in 14 days — you don't pay."
+        ],
+        "cta": "Start with CORE",
+        "popular": false
+      },
+      {
+        "id": "flow",
+        "name": "ATHAR FLOW",
+        "arabic_name": "التدفق",
+        "tagline": "A full schedule — without a receptionist",
+        "description": "\"Confirmed appointments, automatic reminders, and follow-up for patients who didn't book.\"",
+        "features": [
+          "Everything in CORE",
+          "Automatic reminder 24 hours before every appointment",
+          "Follow-up for patients who didn't confirm + re-engagement",
+          "Complete patient record — every conversation searchable",
+          "⏱ First result in: 14 days",
+          "💰 Compared to a receptionist: less than 25% of EGP 8,000–12,000/month",
+          "✓ If we don't hit under 30 seconds in 14 days — you don't pay."
+        ],
+        "cta": "Join FLOW",
+        "popular": true
+      },
+      {
+        "id": "elite",
+        "name": "ATHAR ELITE",
+        "arabic_name": "النخبة",
+        "tagline": "Your clinic runs itself — from first message to last follow-up",
+        "description": "\"Custom system for your specialty — integrated with every tool you already use.\"",
+        "features": [
+          "Everything in FLOW",
+          "Custom flows per specialty (dental, dermatology, aesthetics, internal...)",
+          "Integration with your accounting, CRM, and calendar",
+          "Account manager + weekly performance report",
+          "⏱ First result in: 21 days",
+          "💰 Compared to reception + follow-up staff: less than half the cost",
+          "✓ 14-day response-time guarantee + monthly performance review"
+        ],
+        "cta": "Let's Talk ELITE",
+        "popular": false
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "How We Work",
+    "headline": "3 deliverables. Not 3 meetings.",
+    "subline": "Every step has a specific output — not \"we'll talk and see.\"",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Your Patient Drop-Off Map (45 min)",
+        "body": "We map your current WhatsApp and appointment flow — and pinpoint exactly where patients are lost: late replies, missed appointments, or missing data. You keep the map."
+      },
+      {
+        "number": "02",
+        "title": "A Live System Connected to Your Tools (5–14 days)",
+        "body": "We build the automation, connect WhatsApp, calendar, and CRM, and test it with real scenarios from your clinic — before any patient sees it."
+      },
+      {
+        "number": "03",
+        "title": "Your First 30 Days in a Dashboard",
+        "body": "System goes live. We track with you: response time, bookings, cancellations. If the numbers aren't on target — we adjust until they are."
+      }
+    ]
+  },
+  "proof": {
+    "eyebrow": "Clinic Results",
+    "headline": "Numbers from Egyptian clinics — not estimates.",
+    "subline": "Measurable outcomes in the first 30 days after launch.",
+    "stats": [
+      { "value": "< 30 sec", "label": "Average WhatsApp response time" },
+      { "value": "60%", "label": "Reduction in cancellations (FLOW)" },
+      { "value": "7 days", "label": "To first live auto-reply (CORE)" }
+    ],
+    "testimonials_headline": "What clinic owners say",
+    "testimonials": [
+      {
+        "quote": "40% of nighttime WhatsApp messages went unanswered. Now every message gets a reply in under 20 seconds — and 15 new appointments in the first week.",
+        "name": "Dr. Mariam Salem",
+        "role": "Dental Clinic, Cairo"
+      },
+      {
+        "quote": "I spent 11 hours a week on reminders. The system handles it automatically. Cancellations dropped 60% in the first 30 days.",
+        "name": "Dr. Ahmed El-Sharif",
+        "role": "Dermatology Clinic, Alexandria"
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "headline": "Got questions?",
+    "subline": "Straight answers — no runaround.",
+    "items": [
+      {
+        "q": "What if it doesn't work?",
+        "a": "14-day guarantee: If we don't get your response time under 30 seconds within two weeks of launch — you pay nothing for that month. No exceptions."
+      },
+      {
+        "q": "Is this right for my small clinic?",
+        "a": "Yes — if you have even one patient messaging on WhatsApp and you can't reply within two hours. CORE is built exactly for clinics starting out. If you don't use WhatsApp at all — no, it's not for you."
+      },
+      {
+        "q": "How long does setup take?",
+        "a": "CORE: 5–7 days to first auto-reply. FLOW: 10–14 days to a full schedule with reminders. ELITE: 2–3 weeks depending on specialty."
+      },
+      {
+        "q": "Do I need to change how I work?",
+        "a": "No. The WhatsApp you use today stays. We add automation behind it. No new app, no long training."
+      },
+      {
+        "q": "Will it work with my existing tools?",
+        "a": "WhatsApp Business, Google Calendar, and most CRMs. We'll tell you exactly after your Drop-Off Map (step one)."
+      },
+      {
+        "q": "Is there support after launch?",
+        "a": "Yes — every plan includes ongoing support. ELITE includes an account manager who reviews your numbers weekly."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "ATHAR — from unread message to 30-second reply.",
+    "cta_headline": "Watch the system reply in 15 seconds",
+    "cta_subline": "Free 45-minute consultation — or send a WhatsApp message right now.",
+    "cta_primary": "Book a Free Consultation",
+    "cta_whatsapp": "Try on WhatsApp ←",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions"
+    },
+    "copyright": "© 2025 ATHAR. All rights reserved."
+  }
+}
