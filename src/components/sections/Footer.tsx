@@ -1,5 +1,6 @@
 import { useTranslations } from "@/i18n/locale";
 import SlashDivider from "@/components/ui/SlashDivider";
+import { Facebook, Linkedin, Instagram, Twitter } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 export default function Footer() {
