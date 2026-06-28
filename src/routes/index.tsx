@@ -5,6 +5,7 @@ import Problem from "@/components/sections/Problem";
 import Solution from "@/components/sections/Solution";
 import Tiers from "@/components/sections/Tiers";
 import Process from "@/components/sections/Process";
+import Founder from "@/components/sections/Founder";
 import SocialProof from "@/components/sections/SocialProof";
 import FAQ from "@/components/sections/FAQ";
 import Footer from "@/components/sections/Footer";
@@ -30,6 +31,7 @@ function Index() {
       <Solution />
       <Tiers />
       <Process />
+      <Founder />
       <SocialProof />
       <FAQ />
       <Footer />
