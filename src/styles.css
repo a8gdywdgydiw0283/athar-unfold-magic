@@ -4,6 +4,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --color-athar-black: #0A0A0A;
+  --color-athar-surface: #111111;
+  --color-athar-border: #1E1E1E;
+  --color-athar-slash: #C8FF00;
+  --color-athar-white: #F2F2F2;
+  --color-athar-muted: #6B6B6B;
+  --font-display-ar: "Cairo", sans-serif;
+  --font-display-en: "Space Grotesk", sans-serif;
+  --font-body: "IBM Plex Sans Arabic", "Inter", sans-serif;
+}
+
 /*
  * Design system definition.
  *
@@ -138,7 +150,67 @@
   }
 
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--color-athar-black);
+    color: var(--color-athar-white);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  [data-locale="ar"] h1,
+  [data-locale="ar"] h2,
+  [data-locale="ar"] h3,
+  [data-locale="ar"] .section-title,
+  [data-locale="ar"] .section-label {
+    font-family: var(--font-display-ar);
+  }
+
+  [data-locale="en"] h1,
+  [data-locale="en"] h2,
+  [data-locale="en"] h3,
+  [data-locale="en"] .section-title,
+  [data-locale="en"] .section-label {
+    font-family: var(--font-display-en);
+  }
+
+  ::selection {
+    background-color: var(--color-athar-slash);
+    color: var(--color-athar-black);
+  }
+}
+
+@utility section-padding {
+  padding-inline: 1.5rem;
+  padding-block: 6rem;
+  @media (min-width: 768px) {
+    padding-inline: 3rem;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 6rem;
+    padding-block: 8rem;
+  }
+}
+
+@utility section-label {
+  color: var(--color-athar-slash);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+@utility section-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  @media (min-width: 768px) {
+    font-size: 2.25rem;
+  }
+  @media (min-width: 1024px) {
+    font-size: 3rem;
   }
 }
