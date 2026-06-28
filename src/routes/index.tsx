@@ -9,6 +9,7 @@ import Founder from "@/components/sections/Founder";
 import SocialProof from "@/components/sections/SocialProof";
 import FAQ from "@/components/sections/FAQ";
 import Footer from "@/components/sections/Footer";
+import logo from "@/assets/logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,7 +25,14 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="min-h-screen bg-athar-black">
+    <main className="relative min-h-screen bg-athar-black overflow-hidden">
+      <img
+        src={logo}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none select-none fixed inset-0 m-auto w-[80vw] max-w-[900px] h-auto opacity-[0.04] z-0"
+      />
+      <div className="relative z-10">
       <Nav />
       <Hero />
       <Problem />
@@ -35,6 +43,7 @@ function Index() {
       <SocialProof />
       <FAQ />
       <Footer />
+      </div>
     </main>
   );
 }
