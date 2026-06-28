@@ -152,6 +152,12 @@
       }
     ]
   },
+  "founder": {
+    "eyebrow": "Why ATHAR Exists",
+    "headline": "We noticed Egyptian clinics losing patients between 10 PM and 8 AM.",
+    "body": "Not because the care was poor — but because no one was on WhatsApp after the receptionist went home. So we built a system that reads the message, replies in under 15 seconds, qualifies the patient, and books the appointment inside the same chat. It now handles after-hours WhatsApp for clinics in Cairo and Alexandria — zero messages left unread, 60% fewer cancellations in the first 30 days.",
+    "signature": "— The ATHAR team"
+  },
   "proof": {
     "eyebrow": "Clinic Results",
     "headline": "Numbers from Egyptian clinics — not estimates.",
