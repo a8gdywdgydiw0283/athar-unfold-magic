@@ -1,6 +1,5 @@
-import { useLocale, useTranslations } from "@/i18n/locale";
+import { useTranslations } from "@/i18n/locale";
 import SlashDivider from "@/components/ui/SlashDivider";
-import { getWhatsAppUrl } from "@/lib/whatsapp";
 import logo from "@/assets/logo.png";
 
 export default function Footer() {
