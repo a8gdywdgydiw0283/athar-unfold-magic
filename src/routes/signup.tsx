@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { isCurrentUserAdmin } from "@/lib/is-admin";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -14,8 +15,8 @@ export const Route = createFileRoute("/signup")({
 });
 
 async function routeAfterLogin(navigate: ReturnType<typeof useNavigate>) {
-  const { data } = await supabase.rpc("is_admin");
-  if (data === true) navigate({ to: "/admin/dashboard", replace: true });
+  const isAdmin = await isCurrentUserAdmin();
+  if (isAdmin) navigate({ to: "/admin/dashboard", replace: true });
   else navigate({ to: "/dashboard", replace: true });
 }
 
