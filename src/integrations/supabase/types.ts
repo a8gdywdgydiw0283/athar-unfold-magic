@@ -14,357 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
-      agent_config: {
+      admins: {
         Row: {
-          active_flows: Json | null
-          ai_phone_number: string | null
-          client_id: string | null
-          custom_script: string | null
-          deployed_at: string | null
+          created_at: string
+          email: string
           id: string
-          is_active: boolean | null
-          language: string | null
-          last_updated_at: string | null
-          whatsapp_number: string | null
+          user_id: string | null
         }
         Insert: {
-          active_flows?: Json | null
-          ai_phone_number?: string | null
-          client_id?: string | null
-          custom_script?: string | null
-          deployed_at?: string | null
+          created_at?: string
+          email: string
           id?: string
-          is_active?: boolean | null
-          language?: string | null
-          last_updated_at?: string | null
-          whatsapp_number?: string | null
+          user_id?: string | null
         }
         Update: {
-          active_flows?: Json | null
-          ai_phone_number?: string | null
-          client_id?: string | null
-          custom_script?: string | null
-          deployed_at?: string | null
+          created_at?: string
+          email?: string
           id?: string
-          is_active?: boolean | null
-          language?: string | null
-          last_updated_at?: string | null
-          whatsapp_number?: string | null
+          user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "agent_config_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: true
-            referencedRelation: "client_overview"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "agent_config_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: true
-            referencedRelation: "clients"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
-      billing: {
-        Row: {
-          amount_egp: number
-          client_id: string | null
-          created_at: string | null
-          due_date: string | null
-          id: string
-          invoice_number: string
-          invoice_type: string | null
-          notes: string | null
-          paid_at: string | null
-          payment_method: string | null
-          status: string | null
-        }
-        Insert: {
-          amount_egp: number
-          client_id?: string | null
-          created_at?: string | null
-          due_date?: string | null
-          id?: string
-          invoice_number: string
-          invoice_type?: string | null
-          notes?: string | null
-          paid_at?: string | null
-          payment_method?: string | null
-          status?: string | null
-        }
-        Update: {
-          amount_egp?: number
-          client_id?: string | null
-          created_at?: string | null
-          due_date?: string | null
-          id?: string
-          invoice_number?: string
-          invoice_type?: string | null
-          notes?: string | null
-          paid_at?: string | null
-          payment_method?: string | null
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "billing_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: false
-            referencedRelation: "client_overview"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "billing_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: false
-            referencedRelation: "clients"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      clients: {
+      leads: {
         Row: {
           business_name: string
           city: string | null
-          created_at: string | null
+          created_at: string
           email: string | null
+          full_name: string
           id: string
           industry: string | null
-          language: string | null
           notes: string | null
-          owner_name: string
-          phone: string | null
-          tier: string | null
-          updated_at: string | null
+          phone: string
+          status: string
+          updated_at: string
+          user_id: string | null
           whatsapp: string | null
         }
         Insert: {
           business_name: string
           city?: string | null
-          created_at?: string | null
+          created_at?: string
           email?: string | null
+          full_name: string
           id?: string
           industry?: string | null
-          language?: string | null
           notes?: string | null
-          owner_name: string
-          phone?: string | null
-          tier?: string | null
-          updated_at?: string | null
+          phone: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
           whatsapp?: string | null
         }
         Update: {
           business_name?: string
           city?: string | null
-          created_at?: string | null
+          created_at?: string
           email?: string | null
+          full_name?: string
           id?: string
           industry?: string | null
-          language?: string | null
           notes?: string | null
-          owner_name?: string
-          phone?: string | null
-          tier?: string | null
-          updated_at?: string | null
+          phone?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
           whatsapp?: string | null
         }
         Relationships: []
-      }
-      pipeline: {
-        Row: {
-          churn_reason: string | null
-          churned_at: string | null
-          client_id: string | null
-          contract_signed_at: string | null
-          created_at: string | null
-          demo_booked_at: string | null
-          id: string
-          onboarding_started_at: string | null
-          source: string | null
-          status: string | null
-          updated_at: string | null
-          went_live_at: string | null
-        }
-        Insert: {
-          churn_reason?: string | null
-          churned_at?: string | null
-          client_id?: string | null
-          contract_signed_at?: string | null
-          created_at?: string | null
-          demo_booked_at?: string | null
-          id?: string
-          onboarding_started_at?: string | null
-          source?: string | null
-          status?: string | null
-          updated_at?: string | null
-          went_live_at?: string | null
-        }
-        Update: {
-          churn_reason?: string | null
-          churned_at?: string | null
-          client_id?: string | null
-          contract_signed_at?: string | null
-          created_at?: string | null
-          demo_booked_at?: string | null
-          id?: string
-          onboarding_started_at?: string | null
-          source?: string | null
-          status?: string | null
-          updated_at?: string | null
-          went_live_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "pipeline_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: true
-            referencedRelation: "client_overview"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "pipeline_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: true
-            referencedRelation: "clients"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      team_access: {
-        Row: {
-          can_view_billing: boolean | null
-          created_at: string | null
-          email: string
-          id: string
-          last_active: string | null
-          name: string
-          role: string | null
-          user_id: string | null
-        }
-        Insert: {
-          can_view_billing?: boolean | null
-          created_at?: string | null
-          email: string
-          id?: string
-          last_active?: string | null
-          name: string
-          role?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          can_view_billing?: boolean | null
-          created_at?: string | null
-          email?: string
-          id?: string
-          last_active?: string | null
-          name?: string
-          role?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      users_profile: {
-        Row: {
-          business_name: string | null
-          city: string | null
-          client_id: string | null
-          created_at: string
-          full_name: string | null
-          id: string
-          industry: string | null
-          onboarded: boolean
-          phone: string | null
-          updated_at: string
-          whatsapp: string | null
-        }
-        Insert: {
-          business_name?: string | null
-          city?: string | null
-          client_id?: string | null
-          created_at?: string
-          full_name?: string | null
-          id: string
-          industry?: string | null
-          onboarded?: boolean
-          phone?: string | null
-          updated_at?: string
-          whatsapp?: string | null
-        }
-        Update: {
-          business_name?: string | null
-          city?: string | null
-          client_id?: string | null
-          created_at?: string
-          full_name?: string | null
-          id?: string
-          industry?: string | null
-          onboarded?: boolean
-          phone?: string | null
-          updated_at?: string
-          whatsapp?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "users_profile_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: false
-            referencedRelation: "client_overview"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "users_profile_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: false
-            referencedRelation: "clients"
-            referencedColumns: ["id"]
-          },
-        ]
       }
     }
     Views: {
-      client_overview: {
-        Row: {
-          business_name: string | null
-          city: string | null
-          id: string | null
-          industry: string | null
-          owner_name: string | null
-          phone: string | null
-          pipeline_status: string | null
-          tier: string | null
-          total_invoices: number | null
-          total_overdue_egp: number | null
-          total_paid_egp: number | null
-          total_pending_egp: number | null
-          went_live_at: string | null
-          whatsapp: string | null
-        }
-        Relationships: []
-      }
-      overdue_alerts: {
-        Row: {
-          amount_egp: number | null
-          business_name: string | null
-          days_overdue: number | null
-          due_date: string | null
-          invoice_number: string | null
-          owner_name: string | null
-          whatsapp: string | null
-        }
-        Relationships: []
-      }
-      revenue_by_tier: {
-        Row: {
-          client_count: number | null
-          collected_egp: number | null
-          tier: string | null
-          total_billed_egp: number | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       [_ in never]: never
