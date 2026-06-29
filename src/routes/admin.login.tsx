@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { isCurrentUserAdmin } from "@/lib/is-admin";
 
 export const Route = createFileRoute("/admin/login")({
   head: () => ({
@@ -23,7 +24,7 @@ function AdminLoginPage() {
     (async () => {
       const { data: sess } = await supabase.auth.getSession();
       if (!sess.session) return;
-      const { data: isAdmin } = await supabase.rpc("is_admin");
+      const isAdmin = await isCurrentUserAdmin();
       if (isAdmin) navigate({ to: "/admin/dashboard", replace: true });
     })();
   }, [navigate]);
@@ -33,7 +34,7 @@ function AdminLoginPage() {
     setLoading(true); setError(null);
     const { error: signErr } = await supabase.auth.signInWithPassword({ email, password });
     if (signErr) { setLoading(false); return setError(signErr.message); }
-    const { data: isAdmin } = await supabase.rpc("is_admin");
+    const isAdmin = await isCurrentUserAdmin();
     setLoading(false);
     if (!isAdmin) {
       await supabase.auth.signOut();
