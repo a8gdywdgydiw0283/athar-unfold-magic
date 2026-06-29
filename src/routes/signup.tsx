@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -26,6 +27,7 @@ function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
+  const [oauthLoading, setOauthLoading] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -49,6 +51,20 @@ function SignupPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) return setError(error.message);
+    routeAfterLogin(navigate);
+  }
+
+  async function handleGoogle() {
+    setOauthLoading(true); setError(null); setInfo(null);
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      setOauthLoading(false);
+      return setError(result.error.message);
+    }
+    if (result.redirected) return;
+    setOauthLoading(false);
     routeAfterLogin(navigate);
   }
 
@@ -95,6 +111,23 @@ function SignupPage() {
               {loading ? "..." : mode === "signup" ? "سجّل الآن" : "دخول"}
             </button>
           </form>
+
+          <div className="my-5 flex items-center gap-3 text-xs text-athar-muted">
+            <span className="flex-1 h-px bg-athar-border" />
+            <span>أو</span>
+            <span className="flex-1 h-px bg-athar-border" />
+          </div>
+
+          <button type="button" onClick={handleGoogle} disabled={oauthLoading}
+            className="w-full inline-flex items-center justify-center gap-2 rounded-md border border-athar-border bg-white text-black px-4 py-2.5 text-sm font-semibold hover:bg-white/90 disabled:opacity-60">
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.1 29.3 35 24 35c-6.1 0-11-4.9-11-11s4.9-11 11-11c2.8 0 5.4 1.1 7.3 2.8l5.7-5.7C33.7 6.5 29.1 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.3-3.5z"/>
+              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16.2 19 13.5 24 13.5c2.8 0 5.4 1.1 7.3 2.8l5.7-5.7C33.7 6.5 29.1 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z"/>
+              <path fill="#4CAF50" d="M24 43.5c5 0 9.6-1.9 13.1-5l-6-5.1c-2 1.4-4.4 2.1-7.1 2.1-5.3 0-9.7-3-11.3-7.1l-6.5 5C9.6 39 16.2 43.5 24 43.5z"/>
+              <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.2 5.4l6 5.1C40.8 35.6 43.5 30.3 43.5 24c0-1.2-.1-2.4-.3-3.5z"/>
+            </svg>
+            {oauthLoading ? "..." : "الدخول بحساب Google"}
+          </button>
         </div>
       </div>
     </div>
