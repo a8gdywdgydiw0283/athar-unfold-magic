@@ -14,19 +14,36 @@ type Lead = {
   status: string; created_at: string;
 };
 
+type Onboarding = {
+  id: string; full_name: string; business_name: string;
+  industry: string; process_description: string; monthly_volume: string;
+  preferred_language: string; whatsapp_number: string | null; created_at: string;
+};
+
+type Consultation = {
+  id: string; name: string; email: string; whatsapp: string; created_at: string;
+};
+
 const STATUSES = ["new", "contacted", "qualified", "won", "lost"] as const;
 
 function AdminDashboard() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [rows, setRows] = useState<Lead[] | null>(null);
+  const [onboarding, setOnboarding] = useState<Onboarding[] | null>(null);
+  const [consults, setConsults] = useState<Consultation[] | null>(null);
+  const [tab, setTab] = useState<"onboarding" | "consultations" | "leads">("onboarding");
   const [error, setError] = useState<string | null>(null);
 
   async function load() {
-    const { data, error } = await supabase
-      .from("leads").select("*").order("created_at", { ascending: false });
-    if (error) setError(error.message);
-    else setRows(data ?? []);
+    const [l, o, c] = await Promise.all([
+      supabase.from("leads").select("*").order("created_at", { ascending: false }),
+      supabase.from("onboarding_submissions").select("*").order("created_at", { ascending: false }),
+      supabase.from("consultation_requests").select("*").order("created_at", { ascending: false }),
+    ]);
+    if (l.error) setError(l.error.message); else setRows(l.data ?? []);
+    if (o.error) setError(o.error.message); else setOnboarding(o.data ?? []);
+    if (c.error) setError(c.error.message); else setConsults(c.data ?? []);
   }
 
   useEffect(() => {
@@ -60,19 +77,91 @@ function AdminDashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-zinc-400">{rows?.length ?? 0} total</p>
+        <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
+          <div className="flex gap-2">
+            {([
+              ["onboarding", `Onboarding (${onboarding?.length ?? 0})`],
+              ["consultations", `Consultations (${consults?.length ?? 0})`],
+              ["leads", `Leads (${rows?.length ?? 0})`],
+            ] as const).map(([k, label]) => (
+              <button key={k} onClick={() => setTab(k)}
+                className={`text-xs rounded-md border px-3 py-1.5 ${tab===k ? "bg-athar-slash text-black border-athar-slash" : "border-zinc-800 hover:bg-zinc-900"}`}>
+                {label}
+              </button>
+            ))}
+          </div>
           <button onClick={load} className="text-xs rounded-md border border-zinc-800 px-3 py-1.5 hover:bg-zinc-900">Refresh</button>
         </div>
 
         {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
-        {!rows && !error && <p className="text-sm text-zinc-500">Loading…</p>}
 
-        {rows && rows.length === 0 && (
+        {tab === "onboarding" && (
+          <div className="overflow-x-auto rounded-lg border border-zinc-800">
+            {!onboarding ? <p className="p-4 text-sm text-zinc-500">Loading…</p> :
+             onboarding.length === 0 ? <p className="p-4 text-sm text-zinc-500">No onboarding submissions yet.</p> : (
+            <table className="w-full text-sm">
+              <thead className="bg-zinc-900/60 text-left text-zinc-400">
+                <tr>
+                  <th className="px-3 py-2 font-medium">Date</th>
+                  <th className="px-3 py-2 font-medium">Name</th>
+                  <th className="px-3 py-2 font-medium">Business</th>
+                  <th className="px-3 py-2 font-medium">Industry</th>
+                  <th className="px-3 py-2 font-medium">Process</th>
+                  <th className="px-3 py-2 font-medium">Volume</th>
+                  <th className="px-3 py-2 font-medium">Lang</th>
+                  <th className="px-3 py-2 font-medium">WhatsApp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {onboarding.map(o => (
+                  <tr key={o.id} className="border-t border-zinc-800 align-top">
+                    <td className="px-3 py-2 text-zinc-500 whitespace-nowrap">{new Date(o.created_at).toLocaleString()}</td>
+                    <td className="px-3 py-2 font-medium">{o.full_name}</td>
+                    <td className="px-3 py-2">{o.business_name}</td>
+                    <td className="px-3 py-2">{o.industry}</td>
+                    <td className="px-3 py-2 max-w-md whitespace-pre-wrap">{o.process_description}</td>
+                    <td className="px-3 py-2">{o.monthly_volume}</td>
+                    <td className="px-3 py-2">{o.preferred_language}</td>
+                    <td className="px-3 py-2" dir="ltr">{o.whatsapp_number ?? "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>)}
+          </div>
+        )}
+
+        {tab === "consultations" && (
+          <div className="overflow-x-auto rounded-lg border border-zinc-800">
+            {!consults ? <p className="p-4 text-sm text-zinc-500">Loading…</p> :
+             consults.length === 0 ? <p className="p-4 text-sm text-zinc-500">No consultation requests yet.</p> : (
+            <table className="w-full text-sm">
+              <thead className="bg-zinc-900/60 text-left text-zinc-400">
+                <tr>
+                  <th className="px-3 py-2 font-medium">Date</th>
+                  <th className="px-3 py-2 font-medium">Name</th>
+                  <th className="px-3 py-2 font-medium">Email</th>
+                  <th className="px-3 py-2 font-medium">WhatsApp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {consults.map(c => (
+                  <tr key={c.id} className="border-t border-zinc-800">
+                    <td className="px-3 py-2 text-zinc-500 whitespace-nowrap">{new Date(c.created_at).toLocaleString()}</td>
+                    <td className="px-3 py-2 font-medium">{c.name}</td>
+                    <td className="px-3 py-2" dir="ltr">{c.email}</td>
+                    <td className="px-3 py-2" dir="ltr">{c.whatsapp}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>)}
+          </div>
+        )}
+
+        {tab === "leads" && rows && rows.length === 0 && (
           <p className="text-sm text-zinc-500">No leads yet. Submissions will appear here.</p>
         )}
 
-        {rows && rows.length > 0 && (
+        {tab === "leads" && rows && rows.length > 0 && (
           <div className="overflow-x-auto rounded-lg border border-zinc-800">
             <table className="w-full text-sm">
               <thead className="bg-zinc-900/60 text-left text-zinc-400">
