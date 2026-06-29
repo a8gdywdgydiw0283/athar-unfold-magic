@@ -7,16 +7,10 @@ export const Route = createFileRoute("/_client/dashboard")({
   component: ClientOnboardingOnly,
 });
 
-type Profile = {
-  id: string; client_id: string | null; full_name: string | null;
-  business_name: string | null; phone: string | null; whatsapp: string | null;
-  industry: string | null; city: string | null; onboarded: boolean;
-};
-
 function ClientOnboardingOnly() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [userId, setUserId] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [done, setDone] = useState(false);
 
@@ -24,10 +18,12 @@ function ClientOnboardingOnly() {
     (async () => {
       const { data: u } = await supabase.auth.getUser();
       setEmail(u.user?.email ?? "");
-      const { data: prof } = await supabase
-        .from("users_profile").select("*").eq("id", u.user!.id).maybeSingle();
-      setProfile(prof as Profile | null);
-      if ((prof as Profile | null)?.onboarded) setDone(true);
+      setUserId(u.user?.id ?? "");
+      if (u.user?.id) {
+        const { data: existing } = await supabase
+          .from("leads").select("id").eq("user_id", u.user.id).maybeSingle();
+        if (existing) setDone(true);
+      }
       setLoading(false);
     })();
   }, []);
@@ -55,13 +51,9 @@ function ClientOnboardingOnly() {
           </button>
         </div>
 
-        {done ? (
-          <ThankYou />
-        ) : profile ? (
-          <OnboardingForm profile={profile} email={email} onDone={() => setDone(true)} />
-        ) : (
-          <p className="text-sm text-athar-muted">تعذّر تحميل بياناتك. حاول الخروج وإعادة الدخول.</p>
-        )}
+        {done
+          ? <ThankYou />
+          : <OnboardingForm userId={userId} email={email} onDone={() => setDone(true)} />}
       </div>
     </div>
   );
@@ -80,15 +72,15 @@ function ThankYou() {
 }
 
 function OnboardingForm({
-  profile, email, onDone,
-}: { profile: Profile; email: string; onDone: () => void }) {
+  userId, email, onDone,
+}: { userId: string; email: string; onDone: () => void }) {
   const [form, setForm] = useState({
-    full_name: profile.full_name ?? "",
-    business_name: profile.business_name ?? "",
-    phone: profile.phone ?? "",
-    whatsapp: profile.whatsapp ?? "",
-    industry: profile.industry ?? "",
-    city: profile.city ?? "",
+    full_name: "",
+    business_name: "",
+    phone: "",
+    whatsapp: "",
+    industry: "",
+    city: "",
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -106,22 +98,13 @@ function OnboardingForm({
       city: form.city.trim().slice(0, 80),
     };
 
-    const { error: profErr } = await supabase.from("users_profile")
-      .update({ ...trimmed, onboarded: true })
-      .eq("id", profile.id);
-    if (profErr) { setSaving(false); return setError(profErr.message); }
-
-    if (profile.client_id) {
-      await supabase.from("clients").update({
-        business_name: trimmed.business_name || "New Client",
-        owner_name: trimmed.full_name || email,
-        phone: trimmed.phone,
-        whatsapp: trimmed.whatsapp,
-        industry: trimmed.industry,
-        city: trimmed.city,
-      }).eq("id", profile.client_id);
-    }
+    const { error: insErr } = await supabase.from("leads").insert({
+      user_id: userId,
+      email,
+      ...trimmed,
+    });
     setSaving(false);
+    if (insErr) return setError(insErr.message);
     onDone();
   }
 
