@@ -34,27 +34,41 @@ serve(async (req) => {
       <p><strong>Time:</strong> ${timestamp}</p>
     `;
 
-    const r = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "ATHAR <onboarding@resend.dev>",
-        to: [AGENCY_EMAIL],
-        subject: "New Consultation Request — ATHAR",
-        html,
-        reply_to: email,
-      }),
-    });
+    const sendEmail = async (to: string, subject: string, body: string, replyTo?: string) => {
+      try {
+        const res = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${RESEND_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: "ATHAR <onboarding@resend.dev>",
+            to: [to],
+            subject,
+            html: body,
+            ...(replyTo ? { reply_to: replyTo } : {}),
+          }),
+        });
+        if (!res.ok) {
+          const txt = await res.text();
+          console.warn(`Resend send to ${to} failed:`, txt);
+          return { ok: false, detail: txt };
+        }
+        return { ok: true };
+      } catch (err) {
+        console.warn(`Resend send to ${to} threw:`, err);
+        return { ok: false, detail: String(err) };
+      }
+    };
 
-    if (!r.ok) {
-      const txt = await r.text();
-      return new Response(JSON.stringify({ error: "Resend failed", detail: txt }), {
-        status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    // Notify agency (will silently fail in Resend sandbox if AGENCY_EMAIL isn't verified)
+    const agencyResult = await sendEmail(
+      AGENCY_EMAIL,
+      "New Consultation Request — ATHAR",
+      html,
+      email,
+    );
 
     // Confirmation email to the client
     const clientHtml = `
@@ -73,21 +87,16 @@ serve(async (req) => {
         <p style="color:#888; font-size:12px; margin-top:24px;">— ATHAR Team</p>
       </div>
     `;
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "ATHAR <onboarding@resend.dev>",
-        to: [email],
-        subject: "تم حجز موعدك — ATHAR",
-        html: clientHtml,
-      }),
-    });
+    const clientResult = await sendEmail(email, "تم حجز موعدك — ATHAR", clientHtml);
 
-    return new Response(JSON.stringify({ ok: true }), {
+    return new Response(JSON.stringify({
+      ok: true,
+      agency_email_sent: agencyResult.ok,
+      client_email_sent: clientResult.ok,
+      sandbox_note: (!agencyResult.ok || !clientResult.ok)
+        ? "Some emails were skipped. Verify a domain at resend.com/domains to send to any recipient."
+        : undefined,
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
