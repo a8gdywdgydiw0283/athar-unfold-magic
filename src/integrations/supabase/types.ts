@@ -14,13 +14,301 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agent_config: {
+        Row: {
+          active_flows: Json | null
+          ai_phone_number: string | null
+          client_id: string | null
+          custom_script: string | null
+          deployed_at: string | null
+          id: string
+          is_active: boolean | null
+          language: string | null
+          last_updated_at: string | null
+          whatsapp_number: string | null
+        }
+        Insert: {
+          active_flows?: Json | null
+          ai_phone_number?: string | null
+          client_id?: string | null
+          custom_script?: string | null
+          deployed_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          language?: string | null
+          last_updated_at?: string | null
+          whatsapp_number?: string | null
+        }
+        Update: {
+          active_flows?: Json | null
+          ai_phone_number?: string | null
+          client_id?: string | null
+          custom_script?: string | null
+          deployed_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          language?: string | null
+          last_updated_at?: string | null
+          whatsapp_number?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_config_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: true
+            referencedRelation: "client_overview"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_config_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: true
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing: {
+        Row: {
+          amount_egp: number
+          client_id: string | null
+          created_at: string | null
+          due_date: string | null
+          id: string
+          invoice_number: string
+          invoice_type: string | null
+          notes: string | null
+          paid_at: string | null
+          payment_method: string | null
+          status: string | null
+        }
+        Insert: {
+          amount_egp: number
+          client_id?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          invoice_number: string
+          invoice_type?: string | null
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          status?: string | null
+        }
+        Update: {
+          amount_egp?: number
+          client_id?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          invoice_number?: string
+          invoice_type?: string | null
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "client_overview"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "billing_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          business_name: string
+          city: string | null
+          created_at: string | null
+          email: string | null
+          id: string
+          industry: string | null
+          language: string | null
+          notes: string | null
+          owner_name: string
+          phone: string | null
+          tier: string | null
+          updated_at: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          business_name: string
+          city?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          industry?: string | null
+          language?: string | null
+          notes?: string | null
+          owner_name: string
+          phone?: string | null
+          tier?: string | null
+          updated_at?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          business_name?: string
+          city?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          industry?: string | null
+          language?: string | null
+          notes?: string | null
+          owner_name?: string
+          phone?: string | null
+          tier?: string | null
+          updated_at?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      pipeline: {
+        Row: {
+          churn_reason: string | null
+          churned_at: string | null
+          client_id: string | null
+          contract_signed_at: string | null
+          created_at: string | null
+          demo_booked_at: string | null
+          id: string
+          onboarding_started_at: string | null
+          source: string | null
+          status: string | null
+          updated_at: string | null
+          went_live_at: string | null
+        }
+        Insert: {
+          churn_reason?: string | null
+          churned_at?: string | null
+          client_id?: string | null
+          contract_signed_at?: string | null
+          created_at?: string | null
+          demo_booked_at?: string | null
+          id?: string
+          onboarding_started_at?: string | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string | null
+          went_live_at?: string | null
+        }
+        Update: {
+          churn_reason?: string | null
+          churned_at?: string | null
+          client_id?: string | null
+          contract_signed_at?: string | null
+          created_at?: string | null
+          demo_booked_at?: string | null
+          id?: string
+          onboarding_started_at?: string | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string | null
+          went_live_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pipeline_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: true
+            referencedRelation: "client_overview"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pipeline_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: true
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_access: {
+        Row: {
+          can_view_billing: boolean | null
+          created_at: string | null
+          email: string
+          id: string
+          last_active: string | null
+          name: string
+          role: string | null
+        }
+        Insert: {
+          can_view_billing?: boolean | null
+          created_at?: string | null
+          email: string
+          id?: string
+          last_active?: string | null
+          name: string
+          role?: string | null
+        }
+        Update: {
+          can_view_billing?: boolean | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          last_active?: string | null
+          name?: string
+          role?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      client_overview: {
+        Row: {
+          business_name: string | null
+          city: string | null
+          id: string | null
+          industry: string | null
+          owner_name: string | null
+          phone: string | null
+          pipeline_status: string | null
+          tier: string | null
+          total_invoices: number | null
+          total_overdue_egp: number | null
+          total_paid_egp: number | null
+          total_pending_egp: number | null
+          went_live_at: string | null
+          whatsapp: string | null
+        }
+        Relationships: []
+      }
+      overdue_alerts: {
+        Row: {
+          amount_egp: number | null
+          business_name: string | null
+          days_overdue: number | null
+          due_date: string | null
+          invoice_number: string | null
+          owner_name: string | null
+          whatsapp: string | null
+        }
+        Relationships: []
+      }
+      revenue_by_tier: {
+        Row: {
+          client_count: number | null
+          collected_egp: number | null
+          tier: string | null
+          total_billed_egp: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      can_view_billing: { Args: never; Returns: boolean }
+      is_team_member: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
