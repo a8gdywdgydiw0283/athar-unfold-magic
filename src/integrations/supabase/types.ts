@@ -242,6 +242,7 @@ export type Database = {
           last_active: string | null
           name: string
           role: string | null
+          user_id: string | null
         }
         Insert: {
           can_view_billing?: boolean | null
@@ -251,6 +252,7 @@ export type Database = {
           last_active?: string | null
           name: string
           role?: string | null
+          user_id?: string | null
         }
         Update: {
           can_view_billing?: boolean | null
@@ -260,6 +262,7 @@ export type Database = {
           last_active?: string | null
           name?: string
           role?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -364,10 +367,7 @@ export type Database = {
       }
     }
     Functions: {
-      can_view_billing: { Args: never; Returns: boolean }
-      current_client_id: { Args: never; Returns: string }
-      is_admin: { Args: never; Returns: boolean }
-      is_team_member: { Args: never; Returns: boolean }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
