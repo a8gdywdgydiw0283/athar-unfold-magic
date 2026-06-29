@@ -35,6 +35,30 @@ export type Database = {
         }
         Relationships: []
       }
+      consultation_requests: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          whatsapp: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          whatsapp: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           business_name: string
@@ -80,6 +104,45 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
           whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      onboarding_submissions: {
+        Row: {
+          business_name: string
+          created_at: string
+          full_name: string
+          id: string
+          industry: string
+          monthly_volume: string
+          preferred_language: string
+          process_description: string
+          user_id: string
+          whatsapp_number: string | null
+        }
+        Insert: {
+          business_name: string
+          created_at?: string
+          full_name: string
+          id?: string
+          industry: string
+          monthly_volume: string
+          preferred_language: string
+          process_description: string
+          user_id: string
+          whatsapp_number?: string | null
+        }
+        Update: {
+          business_name?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          industry?: string
+          monthly_volume?: string
+          preferred_language?: string
+          process_description?: string
+          user_id?: string
+          whatsapp_number?: string | null
         }
         Relationships: []
       }

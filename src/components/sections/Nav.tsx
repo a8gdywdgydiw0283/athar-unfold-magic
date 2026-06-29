@@ -1,6 +1,7 @@
 import { useTranslations } from "@/i18n/locale";
 import LanguageToggle from "@/components/ui/LanguageToggle";
 import logo from "@/assets/logo.png";
+import { openLoginModal, openConsultModal } from "@/components/AuthModals";
 
 const navLinks = [
   { key: "services", href: "#tiers" },
@@ -34,18 +35,20 @@ export default function Nav() {
 
         <div className="flex items-center gap-4 md:gap-6">
           <LanguageToggle />
-          <a
-            href="/signup"
+          <button
+            type="button"
+            onClick={openLoginModal}
             className="hidden sm:inline-flex items-center gap-2 px-4 py-2 border border-athar-slash text-athar-slash text-sm font-semibold hover:bg-athar-slash hover:text-athar-black transition-all duration-200"
           >
             {t("login")}
-          </a>
-          <a
-            href="/signup"
+          </button>
+          <button
+            type="button"
+            onClick={openConsultModal}
             className="inline-flex items-center px-4 py-2 bg-athar-slash text-athar-black text-sm font-semibold hover:brightness-110 transition-all duration-200"
           >
             {t("cta")}
-          </a>
+          </button>
         </div>
       </nav>
     </header>

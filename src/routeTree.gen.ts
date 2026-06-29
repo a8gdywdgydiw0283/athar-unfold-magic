@@ -9,7 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ClientRouteRouteImport } from './routes/_client/route'
 import { Route as AdminRouteRouteImport } from './routes/_admin/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,9 +19,19 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ClientDashboardRouteImport } from './routes/_client/dashboard'
 import { Route as AdminAdminDashboardRouteImport } from './routes/_admin/admin.dashboard'
 
+const ThankYouRoute = ThankYouRouteImport.update({
+  id: '/thank-you',
+  path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClientRouteRoute = ClientRouteRouteImport.update({
@@ -53,14 +65,18 @@ const AdminAdminDashboardRoute = AdminAdminDashboardRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
   '/signup': typeof SignupRoute
+  '/thank-you': typeof ThankYouRoute
   '/dashboard': typeof ClientDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/dashboard': typeof AdminAdminDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
   '/signup': typeof SignupRoute
+  '/thank-you': typeof ThankYouRoute
   '/dashboard': typeof ClientDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/dashboard': typeof AdminAdminDashboardRoute
@@ -70,7 +86,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_admin': typeof AdminRouteRouteWithChildren
   '/_client': typeof ClientRouteRouteWithChildren
+  '/onboarding': typeof OnboardingRoute
   '/signup': typeof SignupRoute
+  '/thank-you': typeof ThankYouRoute
   '/_client/dashboard': typeof ClientDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/_admin/admin/dashboard': typeof AdminAdminDashboardRoute
@@ -79,18 +97,29 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/onboarding'
     | '/signup'
+    | '/thank-you'
     | '/dashboard'
     | '/admin/login'
     | '/admin/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signup' | '/dashboard' | '/admin/login' | '/admin/dashboard'
+  to:
+    | '/'
+    | '/onboarding'
+    | '/signup'
+    | '/thank-you'
+    | '/dashboard'
+    | '/admin/login'
+    | '/admin/dashboard'
   id:
     | '__root__'
     | '/'
     | '/_admin'
     | '/_client'
+    | '/onboarding'
     | '/signup'
+    | '/thank-you'
     | '/_client/dashboard'
     | '/admin/login'
     | '/_admin/admin/dashboard'
@@ -100,17 +129,33 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   ClientRouteRoute: typeof ClientRouteRouteWithChildren
+  OnboardingRoute: typeof OnboardingRoute
   SignupRoute: typeof SignupRoute
+  ThankYouRoute: typeof ThankYouRoute
   AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/thank-you': {
+      id: '/thank-you'
+      path: '/thank-you'
+      fullPath: '/thank-you'
+      preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signup': {
       id: '/signup'
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_client': {
@@ -186,7 +231,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
   ClientRouteRoute: ClientRouteRouteWithChildren,
+  OnboardingRoute: OnboardingRoute,
   SignupRoute: SignupRoute,
+  ThankYouRoute: ThankYouRoute,
   AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport

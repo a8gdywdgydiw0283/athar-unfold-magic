@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "@/i18n/locale";
 import { SlashMotif } from "@/components/ui/Slash";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { openConsultModal } from "@/components/AuthModals";
 
 export default function Hero() {
   const t = useTranslations("hero");
@@ -49,12 +50,13 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.65 }}
         >
-          <a
-            href="#tiers"
+          <button
+            type="button"
+            onClick={openConsultModal}
             className="inline-flex items-center justify-center px-8 py-3.5 bg-athar-slash text-athar-black font-semibold hover:brightness-110 transition-all duration-200"
           >
             {t("cta_primary")}
-          </a>
+          </button>
           <a
             href={getWhatsAppUrl(locale)}
             target="_blank"
