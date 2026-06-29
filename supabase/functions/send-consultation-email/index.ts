@@ -56,6 +56,37 @@ serve(async (req) => {
       });
     }
 
+    // Confirmation email to the client
+    const clientHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; background:#0A0A0A; color:#fff;">
+        <h2 style="color:#C8FF00; margin:0 0 16px;">ATHAR</h2>
+        <p style="font-size:16px; line-height:1.6;">مرحباً <strong>${name}</strong>،</p>
+        <p style="font-size:16px; line-height:1.6;">
+          تم حجز موعدك بنجاح ✅<br/>
+          هنتواصل معاك قريباً على رقم الواتساب: <strong>${whatsapp}</strong>
+        </p>
+        <hr style="border:none; border-top:1px solid #333; margin:24px 0;" />
+        <p style="font-size:14px; line-height:1.6;">
+          Hi <strong>${name}</strong>,<br/>
+          Your consultation has been booked successfully. We'll reach out to you shortly on WhatsApp.
+        </p>
+        <p style="color:#888; font-size:12px; margin-top:24px;">— ATHAR Team</p>
+      </div>
+    `;
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "ATHAR <onboarding@resend.dev>",
+        to: [email],
+        subject: "تم حجز موعدك — ATHAR",
+        html: clientHtml,
+      }),
+    });
+
     return new Response(JSON.stringify({ ok: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
