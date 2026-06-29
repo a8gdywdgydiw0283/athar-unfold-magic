@@ -25,51 +25,64 @@ function ModalShell({ onClose, children }: { onClose: () => void; children: Reac
 
 function LoginModal({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true); setError(null);
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim(),
-      options: {
-        emailRedirectTo: `${window.location.origin}/onboarding`,
-        shouldCreateUser: true,
-      },
-    });
+    const creds = { email: email.trim(), password };
+    let result;
+    if (mode === "signup") {
+      result = await supabase.auth.signUp({
+        ...creds,
+        options: { emailRedirectTo: `${window.location.origin}/onboarding` },
+      });
+    } else {
+      result = await supabase.auth.signInWithPassword(creds);
+    }
     setLoading(false);
-    if (error) return setError(error.message);
-    setSent(true);
+    if (result.error) return setError(result.error.message);
+    if (!result.data.session) {
+      return setError("تحقق من بريدك لتأكيد الحساب ثم سجّل الدخول.");
+    }
+    onClose();
+    window.location.href = "/onboarding";
   }
 
   return (
     <ModalShell onClose={onClose}>
-      {sent ? (
-        <div className="text-center py-4">
-          <div className="mx-auto w-12 h-12 rounded-full bg-athar-slash/20 flex items-center justify-center text-athar-slash text-2xl">✓</div>
-          <h2 className="mt-4 text-xl font-bold text-athar-white">تحقق من بريدك</h2>
-          <p className="mt-2 text-sm text-athar-muted">
-            بعتنالك لينك دخول على <span dir="ltr">{email}</span>. اضغط عليه عشان تكمّل.
-          </p>
-        </div>
-      ) : (
-        <>
-          <h2 className="text-xl font-bold text-athar-white">سجّل الدخول</h2>
-          <p className="mt-1 text-sm text-athar-muted">هنبعتلك لينك دخول على إيميلك — بدون باسوورد.</p>
-          <form onSubmit={submit} className="mt-5 space-y-4">
-            <input type="email" required dir="ltr" autoFocus value={email}
-              onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com"
-              className="w-full rounded-md border border-athar-border bg-transparent px-3 py-2.5 text-sm text-athar-white focus:outline-none focus:ring-2 focus:ring-athar-slash" />
-            {error && <p className="text-sm text-red-400">{error}</p>}
-            <button type="submit" disabled={loading}
-              className="w-full rounded-md bg-athar-slash px-4 py-2.5 text-sm font-bold text-athar-black hover:brightness-110 disabled:opacity-60">
-              {loading ? "جارٍ الإرسال…" : "ابعت لينك الدخول"}
-            </button>
-          </form>
-        </>
-      )}
+      <h2 className="text-xl font-bold text-athar-white">
+        {mode === "signin" ? "سجّل الدخول" : "أنشئ حسابك"}
+      </h2>
+      <p className="mt-1 text-sm text-athar-muted">
+        {mode === "signin" ? "ادخل بإيميلك وكلمة السر." : "خطوة واحدة وتقدر تدخل بيانات شغلك."}
+      </p>
+      <div className="mt-4 inline-flex rounded-md border border-athar-border p-1 text-xs">
+        <button type="button" onClick={() => { setMode("signin"); setError(null); }}
+          className={`px-3 py-1 rounded ${mode === "signin" ? "bg-athar-slash text-athar-black font-semibold" : "text-athar-muted"}`}>
+          دخول
+        </button>
+        <button type="button" onClick={() => { setMode("signup"); setError(null); }}
+          className={`px-3 py-1 rounded ${mode === "signup" ? "bg-athar-slash text-athar-black font-semibold" : "text-athar-muted"}`}>
+          حساب جديد
+        </button>
+      </div>
+      <form onSubmit={submit} className="mt-5 space-y-3">
+        <input type="email" required dir="ltr" autoFocus value={email}
+          onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com"
+          className="w-full rounded-md border border-athar-border bg-transparent px-3 py-2.5 text-sm text-athar-white focus:outline-none focus:ring-2 focus:ring-athar-slash" />
+        <input type="password" required minLength={6} dir="ltr" value={password}
+          onChange={(e) => setPassword(e.target.value)} placeholder="••••••••"
+          className="w-full rounded-md border border-athar-border bg-transparent px-3 py-2.5 text-sm text-athar-white focus:outline-none focus:ring-2 focus:ring-athar-slash" />
+        {error && <p className="text-sm text-red-400">{error}</p>}
+        <button type="submit" disabled={loading}
+          className="w-full rounded-md bg-athar-slash px-4 py-2.5 text-sm font-bold text-athar-black hover:brightness-110 disabled:opacity-60">
+          {loading ? "..." : mode === "signin" ? "دخول" : "إنشاء حساب"}
+        </button>
+      </form>
     </ModalShell>
   );
 }
