@@ -263,6 +263,63 @@ export type Database = {
         }
         Relationships: []
       }
+      users_profile: {
+        Row: {
+          business_name: string | null
+          city: string | null
+          client_id: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          industry: string | null
+          onboarded: boolean
+          phone: string | null
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          business_name?: string | null
+          city?: string | null
+          client_id?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          industry?: string | null
+          onboarded?: boolean
+          phone?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          business_name?: string | null
+          city?: string | null
+          client_id?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          industry?: string | null
+          onboarded?: boolean
+          phone?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_profile_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "client_overview"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "users_profile_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       client_overview: {
@@ -308,6 +365,8 @@ export type Database = {
     }
     Functions: {
       can_view_billing: { Args: never; Returns: boolean }
+      current_client_id: { Args: never; Returns: string }
+      is_admin: { Args: never; Returns: boolean }
       is_team_member: { Args: never; Returns: boolean }
     }
     Enums: {
