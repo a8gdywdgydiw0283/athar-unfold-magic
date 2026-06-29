@@ -15,10 +15,12 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -30,12 +32,22 @@ function AuthPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) {
-      setError(error.message);
+    setInfo(null);
+    if (mode === "signup") {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: window.location.origin },
+      });
+      setLoading(false);
+      if (error) return setError(error.message);
+      if (data.session) navigate({ to: "/admin", replace: true });
+      else setInfo("Account created. You can sign in now.");
       return;
     }
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    if (error) return setError(error.message);
     navigate({ to: "/admin", replace: true });
   }
 
@@ -46,8 +58,29 @@ function AuthPage() {
           ← Back to site
         </Link>
         <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
-          <h1 className="text-2xl font-semibold tracking-tight">ATHAR Team Login</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Internal access only.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            {mode === "signin" ? "Sign in to ATHAR" : "Create your ATHAR account"}
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {mode === "signin" ? "Welcome back." : "It only takes a moment."}
+          </p>
+
+          <div className="mt-5 inline-flex rounded-md border border-border p-1 text-sm">
+            <button
+              type="button"
+              onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
+              className={`px-3 py-1 rounded ${mode === "signin" ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
+            >
+              Sign in
+            </button>
+            <button
+              type="button"
+              onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
+              className={`px-3 py-1 rounded ${mode === "signup" ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
+            >
+              Sign up
+            </button>
+          </div>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
@@ -75,17 +108,20 @@ function AuthPage() {
               />
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
+            {info && <p className="text-sm text-emerald-600">{info}</p>}
             <button
               type="submit"
               disabled={loading}
               className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
             >
-              {loading ? "Signing in…" : "Sign in"}
+              {loading ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
             </button>
           </form>
 
           <p className="mt-6 text-xs text-muted-foreground">
-            Accounts are created by an ATHAR admin. Public sign-up is disabled.
+            {mode === "signin"
+              ? "New here? Switch to Sign up above."
+              : "Already have an account? Switch to Sign in above."}
           </p>
         </div>
       </div>
