@@ -1,6 +1,7 @@
 import { useTranslations } from "@/i18n/locale";
 import SlashDivider from "@/components/ui/SlashDivider";
 import { Facebook, Linkedin, Instagram, Twitter } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import logo from "@/assets/logo.png";
 
 export default function Footer() {
@@ -19,12 +20,12 @@ export default function Footer() {
             </div>
 
             <div className="flex gap-6">
-              <a href="#" className="text-sm text-athar-muted hover:text-athar-slash transition-colors duration-200">
+              <Link to="/privacy" className="text-sm text-athar-muted hover:text-athar-slash transition-colors duration-200">
                 {t("links.privacy")}
-              </a>
-              <a href="#" className="text-sm text-athar-muted hover:text-athar-slash transition-colors duration-200">
+              </Link>
+              <Link to="/terms" className="text-sm text-athar-muted hover:text-athar-slash transition-colors duration-200">
                 {t("links.terms")}
-              </a>
+              </Link>
             </div>
           </div>
 
