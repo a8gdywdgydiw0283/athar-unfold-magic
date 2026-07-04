@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ClientRouteRouteImport } from './routes/_client/route'
@@ -22,6 +23,11 @@ import { Route as AdminAdminDashboardRouteImport } from './routes/_admin/admin.d
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
   path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
   '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
   '/dashboard': typeof ClientDashboardRoute
   '/admin/login': typeof AdminLoginRoute
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
   '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
   '/dashboard': typeof ClientDashboardRoute
   '/admin/login': typeof AdminLoginRoute
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/_client': typeof ClientRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
   '/thank-you': typeof ThankYouRoute
   '/_client/dashboard': typeof ClientDashboardRoute
   '/admin/login': typeof AdminLoginRoute
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/'
     | '/onboarding'
     | '/signup'
+    | '/terms'
     | '/thank-you'
     | '/dashboard'
     | '/admin/login'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/'
     | '/onboarding'
     | '/signup'
+    | '/terms'
     | '/thank-you'
     | '/dashboard'
     | '/admin/login'
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/_client'
     | '/onboarding'
     | '/signup'
+    | '/terms'
     | '/thank-you'
     | '/_client/dashboard'
     | '/admin/login'
@@ -131,6 +143,7 @@ export interface RootRouteChildren {
   ClientRouteRoute: typeof ClientRouteRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
   SignupRoute: typeof SignupRoute
+  TermsRoute: typeof TermsRoute
   ThankYouRoute: typeof ThankYouRoute
   AdminLoginRoute: typeof AdminLoginRoute
 }
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/thank-you'
       fullPath: '/thank-you'
       preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup': {
@@ -233,6 +253,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClientRouteRoute: ClientRouteRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
   SignupRoute: SignupRoute,
+  TermsRoute: TermsRoute,
   ThankYouRoute: ThankYouRoute,
   AdminLoginRoute: AdminLoginRoute,
 }
