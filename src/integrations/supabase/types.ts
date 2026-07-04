@@ -37,6 +37,9 @@ export type Database = {
       }
       consultation_requests: {
         Row: {
+          contacted: boolean
+          contacted_at: string | null
+          contacted_by: string | null
           created_at: string
           email: string
           id: string
@@ -44,6 +47,9 @@ export type Database = {
           whatsapp: string
         }
         Insert: {
+          contacted?: boolean
+          contacted_at?: string | null
+          contacted_by?: string | null
           created_at?: string
           email: string
           id?: string
@@ -51,6 +57,9 @@ export type Database = {
           whatsapp: string
         }
         Update: {
+          contacted?: boolean
+          contacted_at?: string | null
+          contacted_by?: string | null
           created_at?: string
           email?: string
           id?: string
@@ -63,6 +72,9 @@ export type Database = {
         Row: {
           business_name: string
           city: string | null
+          contacted: boolean
+          contacted_at: string | null
+          contacted_by: string | null
           created_at: string
           email: string | null
           full_name: string
@@ -78,6 +90,9 @@ export type Database = {
         Insert: {
           business_name: string
           city?: string | null
+          contacted?: boolean
+          contacted_at?: string | null
+          contacted_by?: string | null
           created_at?: string
           email?: string | null
           full_name: string
@@ -93,6 +108,9 @@ export type Database = {
         Update: {
           business_name?: string
           city?: string | null
+          contacted?: boolean
+          contacted_at?: string | null
+          contacted_by?: string | null
           created_at?: string
           email?: string | null
           full_name?: string
@@ -110,6 +128,9 @@ export type Database = {
       onboarding_submissions: {
         Row: {
           business_name: string
+          contacted: boolean
+          contacted_at: string | null
+          contacted_by: string | null
           created_at: string
           full_name: string
           id: string
@@ -122,6 +143,9 @@ export type Database = {
         }
         Insert: {
           business_name: string
+          contacted?: boolean
+          contacted_at?: string | null
+          contacted_by?: string | null
           created_at?: string
           full_name: string
           id?: string
@@ -134,6 +158,9 @@ export type Database = {
         }
         Update: {
           business_name?: string
+          contacted?: boolean
+          contacted_at?: string | null
+          contacted_by?: string | null
           created_at?: string
           full_name?: string
           id?: string
