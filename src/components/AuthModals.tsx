@@ -101,8 +101,12 @@ function ConsultModal({ onClose }: { onClose: () => void }) {
       email: form.email.trim().slice(0, 255),
       whatsapp: form.whatsapp.trim().slice(0, 30),
     };
-    const { error: insErr } = await supabase.from("consultation_requests").insert(payload);
-    if (insErr) { setLoading(false); return setError(insErr.message); }
+    const { error: rpcErr } = await supabase.rpc("submit_consultation", {
+      _name: payload.name,
+      _email: payload.email,
+      _whatsapp: payload.whatsapp,
+    });
+    if (rpcErr) { setLoading(false); return setError(rpcErr.message); }
 
     try {
       await supabase.functions.invoke("send-consultation-email", { body: payload });
