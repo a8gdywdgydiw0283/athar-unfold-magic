@@ -151,6 +151,7 @@ function AdminDashboard() {
                   <th className="px-3 py-2 font-medium">Volume</th>
                   <th className="px-3 py-2 font-medium">Lang</th>
                   <th className="px-3 py-2 font-medium">WhatsApp</th>
+                  <th className="px-3 py-2 font-medium">تم التواصل</th>
                 </tr>
               </thead>
               <tbody>
@@ -164,6 +165,9 @@ function AdminDashboard() {
                     <td className="px-3 py-2">{o.monthly_volume}</td>
                     <td className="px-3 py-2">{o.preferred_language}</td>
                     <td className="px-3 py-2" dir="ltr">{o.whatsapp_number ?? "—"}</td>
+                    <td className="px-3 py-2">
+                      <ContactedCell checked={o.contacted} onChange={v => toggleContacted("onboarding_submissions", o.id, v)} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -182,6 +186,7 @@ function AdminDashboard() {
                   <th className="px-3 py-2 font-medium">Name</th>
                   <th className="px-3 py-2 font-medium">Email</th>
                   <th className="px-3 py-2 font-medium">WhatsApp</th>
+                  <th className="px-3 py-2 font-medium">تم التواصل</th>
                 </tr>
               </thead>
               <tbody>
@@ -191,6 +196,9 @@ function AdminDashboard() {
                     <td className="px-3 py-2 font-medium">{c.name}</td>
                     <td className="px-3 py-2" dir="ltr">{c.email}</td>
                     <td className="px-3 py-2" dir="ltr">{c.whatsapp}</td>
+                    <td className="px-3 py-2">
+                      <ContactedCell checked={c.contacted} onChange={v => toggleContacted("consultation_requests", c.id, v)} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -216,6 +224,7 @@ function AdminDashboard() {
                   <th className="px-3 py-2 font-medium">Industry</th>
                   <th className="px-3 py-2 font-medium">City</th>
                   <th className="px-3 py-2 font-medium">Status</th>
+                  <th className="px-3 py-2 font-medium">تم التواصل</th>
                 </tr>
               </thead>
               <tbody>
@@ -237,6 +246,9 @@ function AdminDashboard() {
                       >
                         {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
                       </select>
+                    </td>
+                    <td className="px-3 py-2">
+                      <ContactedCell checked={r.contacted} onChange={v => toggleContacted("leads", r.id, v)} />
                     </td>
                   </tr>
                 ))}
