@@ -12,16 +12,19 @@ type Lead = {
   email: string | null; phone: string; whatsapp: string | null;
   industry: string | null; city: string | null; notes: string | null;
   status: string; created_at: string;
+  contacted: boolean; contacted_at: string | null;
 };
 
 type Onboarding = {
   id: string; full_name: string; business_name: string;
   industry: string; process_description: string; monthly_volume: string;
   preferred_language: string; whatsapp_number: string | null; created_at: string;
+  contacted: boolean; contacted_at: string | null;
 };
 
 type Consultation = {
   id: string; name: string; email: string; whatsapp: string; created_at: string;
+  contacted: boolean; contacted_at: string | null;
 };
 
 const STATUSES = ["new", "contacted", "qualified", "won", "lost"] as const;
@@ -54,6 +57,44 @@ function AdminDashboard() {
   async function updateStatus(id: string, status: string) {
     setRows(rs => rs?.map(r => r.id === id ? { ...r, status } : r) ?? null);
     await supabase.from("leads").update({ status }).eq("id", id);
+  }
+
+  async function toggleContacted(
+    table: "consultation_requests" | "onboarding_submissions" | "leads",
+    id: string,
+    next: boolean,
+  ) {
+    const { data: u } = await supabase.auth.getUser();
+    const patch = {
+      contacted: next,
+      contacted_at: next ? new Date().toISOString() : null,
+      contacted_by: next ? (u.user?.id ?? null) : null,
+    };
+    if (table === "consultation_requests") {
+      setConsults(cs => cs?.map(c => c.id === id ? { ...c, ...patch } : c) ?? null);
+    } else if (table === "onboarding_submissions") {
+      setOnboarding(os => os?.map(o => o.id === id ? { ...o, ...patch } : o) ?? null);
+    } else {
+      setRows(rs => rs?.map(r => r.id === id ? { ...r, ...patch } : r) ?? null);
+    }
+    const { error: e } = await supabase.from(table).update(patch).eq("id", id);
+    if (e) { setError(e.message); load(); }
+  }
+
+  function ContactedCell({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
+    return (
+      <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={e => onChange(e.target.checked)}
+          className="h-4 w-4 accent-athar-slash"
+        />
+        <span className={`text-xs ${checked ? "text-emerald-400" : "text-zinc-500"}`}>
+          {checked ? "تم التواصل" : "لم يتم"}
+        </span>
+      </label>
+    );
   }
 
   async function signOut() {
@@ -110,6 +151,7 @@ function AdminDashboard() {
                   <th className="px-3 py-2 font-medium">Volume</th>
                   <th className="px-3 py-2 font-medium">Lang</th>
                   <th className="px-3 py-2 font-medium">WhatsApp</th>
+                  <th className="px-3 py-2 font-medium">تم التواصل</th>
                 </tr>
               </thead>
               <tbody>
@@ -123,6 +165,9 @@ function AdminDashboard() {
                     <td className="px-3 py-2">{o.monthly_volume}</td>
                     <td className="px-3 py-2">{o.preferred_language}</td>
                     <td className="px-3 py-2" dir="ltr">{o.whatsapp_number ?? "—"}</td>
+                    <td className="px-3 py-2">
+                      <ContactedCell checked={o.contacted} onChange={v => toggleContacted("onboarding_submissions", o.id, v)} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -141,6 +186,7 @@ function AdminDashboard() {
                   <th className="px-3 py-2 font-medium">Name</th>
                   <th className="px-3 py-2 font-medium">Email</th>
                   <th className="px-3 py-2 font-medium">WhatsApp</th>
+                  <th className="px-3 py-2 font-medium">تم التواصل</th>
                 </tr>
               </thead>
               <tbody>
@@ -150,6 +196,9 @@ function AdminDashboard() {
                     <td className="px-3 py-2 font-medium">{c.name}</td>
                     <td className="px-3 py-2" dir="ltr">{c.email}</td>
                     <td className="px-3 py-2" dir="ltr">{c.whatsapp}</td>
+                    <td className="px-3 py-2">
+                      <ContactedCell checked={c.contacted} onChange={v => toggleContacted("consultation_requests", c.id, v)} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -175,6 +224,7 @@ function AdminDashboard() {
                   <th className="px-3 py-2 font-medium">Industry</th>
                   <th className="px-3 py-2 font-medium">City</th>
                   <th className="px-3 py-2 font-medium">Status</th>
+                  <th className="px-3 py-2 font-medium">تم التواصل</th>
                 </tr>
               </thead>
               <tbody>
@@ -196,6 +246,9 @@ function AdminDashboard() {
                       >
                         {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
                       </select>
+                    </td>
+                    <td className="px-3 py-2">
+                      <ContactedCell checked={r.contacted} onChange={v => toggleContacted("leads", r.id, v)} />
                     </td>
                   </tr>
                 ))}
